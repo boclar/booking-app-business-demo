@@ -1,0 +1,6 @@
+{
+    "liveServer.settings.port": 5501,
+    "circleci.persistedProjectSelection": [
+        "gh/boclar/booking-app-business"
+    ]
+}

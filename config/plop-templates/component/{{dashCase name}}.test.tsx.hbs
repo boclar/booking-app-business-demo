@@ -1,0 +1,14 @@
+import { {{pascalCase name}} } from './{{dashCase name}}';
+import { {{camelCase name}}Mock } from './{{dashCase name}}.mock';
+import { screen } from '@testing-library/react-native';
+import {renderWithContext} from '@/utils/testing-library/testing-library.utils';
+
+// Variables
+const {{camelCase name}}Id = '{{dashCase name}}';
+
+describe('<{{pascalCase name}} />', () => {
+    it('renders correctly', () => {
+        renderWithContext(<{{pascalCase name}} />);
+        expect(screen.getByTestId('{{camelCase name}}')).toBeOnTheScreen();
+    });
+});

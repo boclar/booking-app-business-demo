@@ -1,0 +1,23 @@
+name: Enforce PR naming convention
+permissions:
+  contents: read
+  pull-requests: write
+on:
+  pull_request:
+    types: [ opened, edited, synchronize, reopened ]
+    branches:
+      - develop
+      - feature/*
+      - hotfix/*
+      - release/*
+      - bugfix/*
+jobs:
+  enforce-pr-naming-convention:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rename PR
+        uses: deepakputhraya/action-pr-title@master
+        with:
+          regex: '^\s*?((feature|hotfix|release|bugfix)\/BOC[a-z0-9-]+)+\s*?$'
+          prefix_case_sensitive: true
+          github_token: ${{ github.token }}

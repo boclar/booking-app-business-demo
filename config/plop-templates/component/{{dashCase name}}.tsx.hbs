@@ -1,0 +1,25 @@
+import { View } from 'react-native';
+import { {{pascalCase name}}Props } from './{{lowerCase name}}.types';
+import { {{camelCase name}}Styles } from './{{lowerCase name}}.styles';
+import { useTheme } from '@boclar/booking-app-components';
+
+/**
+ * Edit this component description
+ */
+const {{pascalCase name}} = ({ children, ...props }: {{pascalCase name}}Props) => {
+    const { testID } = props;
+    const styles = {{camelCase name}}Styles({
+        props,
+    });
+
+    return (
+        <View
+            style={styles.rootContainer}
+            testID={testID}
+        >
+            {children}
+        </View>
+    );
+};
+
+export { {{pascalCase name}} };

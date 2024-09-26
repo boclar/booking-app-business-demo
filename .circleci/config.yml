@@ -1,0 +1,108 @@
+version: 2.1
+executors:
+  android-executor:
+    docker: 
+      - image: cimg/android:2023.09-ndk
+    resource_class: xlarge
+  ios-executor:
+    macos:
+      xcode: '15.4.0'
+    resource_class: macos.m1.medium.gen1
+orbs:
+  macos: circleci/macos@2.5.2
+  node: circleci/node@4.0.0
+jobs:
+  build-beta-ios-app:
+    executor: ios-executor
+    steps:
+      - run:
+          name: 'Export Fastlane environment variables'
+          command: |
+            echo 'export LC_ALL=en_US.UTF-8' >> $BASH_ENV
+            echo 'export LANG=en_US.UTF-8' >> $BASH_ENV
+      - checkout
+      - run:
+          name: Install project dependencies
+          command: yarn install
+      - run:
+          name: Extract ios directory from Expo
+          command: npx expo prebuild --platform ios
+      - run:
+          name: Install Pod dependencies
+          command: |
+            cd ios
+            pod install
+      - run:
+          name: 'Install Bundler'
+          command: |
+            cd ios
+            bundle update
+      - run:
+          name: 'Build and deploy to TestFlight'
+          command: |
+            cd ios
+            bundle exec fastlane beta
+  build-beta-android-app:
+    executor: android-executor
+    steps:
+      - run:
+          name: 'Export Fastlane environment variables'
+          command: |
+            echo 'export LC_ALL=en_US.UTF-8' >> $BASH_ENV
+            echo 'export LANG=en_US.UTF-8' >> $BASH_ENV
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '20'
+      - run:
+          name: Read GOOGLE_SERVICE_ACCOUNT_JSON and save it to a file under android dir
+          command: |
+            echo $GOOGLE_SERVICE_ACCOUNT_JSON > android/google-service-account.json
+            echo "export GOOGLE_SERVICE_ACCOUNT_JSON_FILE_PATH=\"${CIRCLE_WORKING_DIRECTORY}/android/google-service-account.json\"" >> $BASH_ENV
+      - run:
+          name: 'Decrypt keystore content from environment variable'
+          command: |
+            echo $ANDROID_SIGNING_KEYSTORE_CONTENT_BASE64 | base64 -di > android/app.keystore
+            echo "export ANDROID_SIGNING_KEYSTORE_FILE_PATH=\"$(pwd)/android/app.keystore\"" >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: 'Print environment variables'
+          command: |
+            echo $CIRCLE_WORKING_DIRECTORY
+            echo $GOOGLE_SERVICE_ACCOUNT_JSON_FILE_PATH
+            echo $ANDROID_SIGNING_KEYSTORE_FILE_PATH
+      - run:
+          name: Install latest Bundler
+          command: gem install bundler --user-install
+      - run:
+          name: 'Set GEM_HOME and PATH'
+          command: |
+            echo 'export GEM_HOME=$HOME/.gem' >> $BASH_ENV
+            echo 'export PATH=$HOME/.gem/bin:$PATH' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Install Bundler
+          command: |
+            cd android
+            bundle install
+      - run:
+          name: Install project dependencies
+          command: yarn install
+      - run:
+          name: 'Build and deploy to Play Store'
+          command: |
+            cd android
+            bundle exec fastlane beta
+workflows:
+  build:
+    jobs:
+      - hold-build-beta-ios-app:
+          type: approval
+      - build-beta-ios-app:
+          requires:
+            - hold-build-beta-ios-app
+      - hold-build-beta-android-app:
+          type: approval
+      - build-beta-android-app:
+          requires:
+            - hold-build-beta-android-app

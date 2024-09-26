@@ -1,0 +1,19 @@
+import { renderRouter, screen, waitFor } from 'expo-router/testing-library';
+
+describe('{{pascalCase name}} screen', () => {
+    it('renders screen correctly', async () => {
+        renderRouter(
+            {
+                appDir: 'src/app',
+                overrides: {},
+            },
+            {
+                initialUrl: '/{{dashCase name}}',
+            }
+        );
+        await waitFor(() => {
+            expect(screen).toHavePathname('/{{dashCase name}}');
+        });
+    });
+});
+

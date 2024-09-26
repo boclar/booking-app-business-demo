@@ -1,0 +1,35 @@
+import { Link, router } from 'expo-router';
+import { Text } from '@boclar/booking-app-components';
+import { useCallback } from 'react';
+
+const {{pascalCase name}} = () => {
+
+    const handleGoBack = useCallback(() => {
+        router.back();
+    }, []);
+    
+    return (
+        <>
+            <Text
+                color={'screenHeaderTitle'}
+                fontFamily={'heading.bold'}
+                fontSize={'screenHeaderTitle'}
+            >
+                {{ pascalCase name }} screen
+            </Text>
+
+            <Text
+                color={'body'}
+                fontFamily={'body.regular'}
+                fontSize={'body'}
+                onPress={handleGoBack}
+            >
+                Go back to previous screen
+            </Text>
+
+            <Link href="/">Go to back to Home</Link>
+        </>
+    );
+};
+
+export default {{pascalCase name}};

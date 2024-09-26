@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+yarn run check:types
+yarn run lint
+yarn run test

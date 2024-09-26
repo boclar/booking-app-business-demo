@@ -1,0 +1,69 @@
+🩺 checking the health of your Storybook..
+
+╭ Diagnostics ────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                 │
+│   Critical: The following dependencies are duplicated and WILL cause unexpected behavior:       │
+│   @storybook/core-events:                                                                       │
+│   7.6.17, 7.6.18, 8.0.8, 6.5.16                                                                 │
+│                                                                                                 │
+│   @storybook/core-common:                                                                       │
+│   7.6.17, 8.0.8, 7.6.18, 6.5.16                                                                 │
+│                                                                                                 │
+│                                                                                                 │
+│   Attention: The following dependencies are duplicated which might cause unexpected behavior:   │
+│   @storybook/channels:                                                                          │
+│   7.6.17, 7.6.18, 8.0.8, 6.5.16                                                                 │
+│                                                                                                 │
+│   @storybook/blocks:                                                                            │
+│   7.6.17, 8.0.8, 7.6.18                                                                         │
+│                                                                                                 │
+│   @storybook/csf-tools:                                                                         │
+│   7.6.17, 8.0.8                                                                                 │
+│                                                                                                 │
+│   @storybook/node-logger:                                                                       │
+│   7.6.17, 8.0.8, 7.6.18, 6.5.16                                                                 │
+│                                                                                                 │
+│   @storybook/react-dom-shim:                                                                    │
+│   7.6.17, 8.0.8, 7.6.18                                                                         │
+│                                                                                                 │
+│   @storybook/types:                                                                             │
+│   7.6.17, 8.0.8, 7.6.18                                                                         │
+│                                                                                                 │
+│   @storybook/docs-tools:                                                                        │
+│   7.6.17, 8.0.8, 7.6.18                                                                         │
+│                                                                                                 │
+│   @storybook/addon-docs:                                                                        │
+│   8.0.8, 7.6.17                                                                                 │
+│                                                                                                 │
+│   @storybook/core-webpack:                                                                      │
+│   7.6.17, 7.6.18                                                                                │
+│                                                                                                 │
+│   @storybook/react:                                                                             │
+│   7.6.17, 7.6.18                                                                                │
+│                                                                                                 │
+│   @storybook/builder-webpack5:                                                                  │
+│   7.6.18, 7.6.17                                                                                │
+│                                                                                                 │
+│   @storybook/addon-actions:                                                                     │
+│   7.6.18, 7.6.17                                                                                │
+│                                                                                                 │
+│   @storybook/addon-controls:                                                                    │
+│   7.6.18, 7.6.17                                                                                │
+│                                                                                                 │
+│   @storybook/csf-plugin:                                                                        │
+│   7.6.17, 8.0.8                                                                                 │
+│                                                                                                 │
+│   @storybook/preview:                                                                           │
+│   7.6.17, 7.6.18                                                                                │
+│                                                                                                 │
+│                                                                                                 │
+│   You can find more information for a given dependency by running yarn why <package-name>       │
+│                                                                                                 │
+│                                                                                                 │
+│   Please try de-duplicating these dependencies by running yarn dedupe                           │
+│                                                                                                 │
+│   -------                                                                                       │
+│                                                                                                 │
+│   You can find the full logs in T:\Projects\booking-app-business\doctor-storybook.log           │
+│                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯

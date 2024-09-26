@@ -1,0 +1,14 @@
+import { {{pascalCase name}}Props } from './{{dashCase name}}.types';
+import { StyleSheet } from 'react-native';
+
+interface {{pascalCase name}}StylesProps {
+    props: Pick<{{pascalCase name}}Props, 'testID'>;
+}
+
+export const {{camelCase name}}Styles = (props: {{pascalCase name}}StylesProps) => {
+    const { testID } = props;
+
+    return StyleSheet.create({
+        rootContainer: {},
+    });
+};

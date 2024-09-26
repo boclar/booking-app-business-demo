@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+      - feature/*
+      - hotfix/*
+      - release/*
+      - bugfix/*
+permissions: write-all
+jobs:
+  checks-code:
+    runs-on: ubuntu-latest
+    environment: CI/CD
+    env:
+      EXPO_PUBLIC_GRAPHQL_API_URL: ${{ secrets.EXPO_PUBLIC_GRAPHQL_API_URL }}
+      EXPO_PUBLIC_GRAPHQL_API_KEY: ${{ secrets.EXPO_PUBLIC_GRAPHQL_API_KEY }}
+    strategy:
+      matrix:
+        node-version: [ 20 ]
+    steps:
+      - name: Log environment variables
+        run: |
+          echo "EXPO_PUBLIC_GRAPHQL_API_URL: ${{ secrets.EXPO_PUBLIC_GRAPHQL_API_URL }}"
+          echo "EXPO_PUBLIC_DEEPL_API_KEY: ${{ secrets.EXPO_PUBLIC_DEEPL_API_KEY }}"
+        
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: node_modules
+          key: "${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}"
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: yarn install
+      - name: Check all commits
+        run: yarn commitlint --from $(git rev-list --max-parents=0 HEAD) --to HEAD
+      - name: Check Typescript
+        run: yarn run check:types
+      - name: Lint code
+        run: yarn run lint
+      - name: Run __tests__
+        run: yarn run test

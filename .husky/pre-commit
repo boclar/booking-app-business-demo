@@ -1,0 +1,2 @@
+yarn run check:all-commits
+npx lint-staged

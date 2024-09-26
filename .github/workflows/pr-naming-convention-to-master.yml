@@ -1,0 +1,16 @@
+name: Enforce PR naming convention to master
+on:
+  pull_request:
+      types: [opened, edited, synchronize, reopened]
+      branches:
+        - master
+jobs:
+    enforce-pr-naming-convention-to-master:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Rename PR
+              uses: deepakputhraya/action-pr-title@master
+              with:
+                regex: '^\s*?release\/BOC[a-z0-9-]+)+\s*?$'
+                prefix_case_sensitive: true
+                github_token: ${{ github.token }}
